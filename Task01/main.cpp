@@ -151,8 +151,8 @@ public:
 		ptr tmp(p1);
 		p1 = p2;
 		p2 = tmp;
-	}*/
-	/*void getLog()
+	}
+	void getLog()
 	{
 		cout << "Wartosc x: " << *this->x << " adres x: " << &this->x << " wartosc y: " << this->y << endl;
 	}
@@ -181,22 +181,22 @@ public:
 };
 
 int main()
-{*/
-	/*ptr p1(15, 25);
-	p1.getLog();
-	ptr p2;
-	p2 = p1;
-	p2.getLog();*/
-	//ptr p2 /*= p1*/;
+{
+	//ptr p1(15, 25);
+	//p1.getLog();
+	//ptr p2;
+	//p2 = p1;
+	//p2.getLog();
+	//ptr p2 = p1;
 	//p2 = p1;
 	//ptr p2(p1);
 	//p2.setX(20);
-	/*p2.getX();
-	p1.getX();
-	p2.getY();
-	p1.getY();*/
+	//p2.getX();
+	//p1.getX();
+	//p2.getY();
+	//p1.getY();
 
-	/*ptr p1(1, 1);
+	ptr p1(1, 1);
 	ptr p2(2, 2);
 
 	p1.getLog();
@@ -298,30 +298,50 @@ int main()
 }*/
 
 
-template <typename T>
+/*template <typename T>
 class Holder
 {
 public:
 	T x;
 	Holder():x(0) {};
 	Holder(T x);
-	Holder operator+(const Holder& h)
-	{
-		this->x += h.x;
-		return *this;
-	}
+	template<typename T1, typename T2>
+	friend Holder<T1> operator+(const Holder<T1>& h1, const Holder<T2>& h2);
+	//Holder operator+(const Holder& h)
+	//{
+	//	Holder<T> copy(*this);
+	//	copy.x = copy.x + h.x;
+	//	return copy;
+	//}
 	Holder operator*(const Holder& h)
 	{
-		this->x *= h.x;
-		return *this;
+		Holder<T> copy(*this);
+		copy.x = copy.x * h.x;
+		return copy;
+	}
+
+	friend std::ostream& operator<<(std::ostream& s, const Holder& h)
+	{
+		s << "Holder x = " << h.x << std::endl;
+		return s;
 	}
 };
 template<typename T>
 Holder<T>::Holder(T x):x(x) {};
 
+template<typename T1, typename T2>
+Holder<T1> operator+(const Holder<T1>& h1, const Holder<T2>& h2)
+{
+	Holder<T1> copy(h1);
+	copy.x = copy.x + h2.x;
+	return copy;
+}
+
 int main()
 {
-	Holder<int> h1, h2, h3;
+	Holder<int> h1;
+	Holder<float> h2;
+	Holder<l+ ong> h3;
 	h1.x = 2;
 	h2.x = 3;
 	h3.x = 4;
@@ -329,12 +349,50 @@ int main()
 	h1.x = 2;
 	h2.x = 3;
 	h3.x = 4;
-	h1 = h1 * h2 + h3;
+	h1 = h1 + h2;
 
-	std::cout << h1.x << std::endl;
+	//std::cout << h1 << std::endl;
+	//std::cout << h2 << std::endl;
 
 	Holder<float>* ph = new Holder<float>(3);
 
+	Holder<Holder<int>>x, y;
+	//x.x.x = 1;
+	//y.x.x = 2;
+	x = x + y;
+	std::cout << x << std::endl;
 
 	return 0;
+}*/
+
+using namespace std;
+template <typename T> T maxt(T t1, T t2)
+{
+	cout << "Template 1" << endl;
+	return (t1 > t2) ? t1:t2;
+}
+
+template <typename T1, typename T2> T1 maxt(T1 t1, T2 t2)
+{
+	cout << "Template 2" << endl;
+	return (t1 > t2) ? t1:t2;
+}
+
+float maxt(float t1, float t2)
+{
+	cout << "Float" << endl;
+	return (t1 > t2) ? t1:t2;
+}
+
+int main()
+{
+	cout << maxt(1, 2) << endl;
+	cout << maxt(1.1, 2.2) << endl;
+	cout << maxt(1.1f, 2.2f) << endl;
+	//cout << maxt('1', '2') << endl;
+	//cout << maxt(1, '2') << endl;
+	cout << maxt<int>(1.1f, 2.2f) << endl;
+	cout << maxt<float>(1.1f, 2.2f) << endl;
+	//cout << maxt<char>(1, '2') << endl;
+	//cout << maxt<char, char>(1, '2') << endl;
 }
