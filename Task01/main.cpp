@@ -666,10 +666,16 @@ int main()
 //	}
 
 	array<Person, 10> persons;
+	int i = 1;
 
-	for (auto p:persons)
+	for (auto& p:persons)
 	{
 		p.generatePerson();
+	}
+	for (auto& p:persons)
+	{
+		cout << "Person " << i << endl;
 		cout << p << endl;
+		++i;
 	}
 }
