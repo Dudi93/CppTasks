@@ -1,4 +1,9 @@
 #include <iostream>
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <random>
+#include <array>
 
 /*namespace a
 {
@@ -215,7 +220,7 @@ int main()
 public:
 	virtual void f()
 	{
-		std::cout << "X";
+		cout << "X";
 	}
 	virtual ~X() {}
 };
@@ -225,7 +230,7 @@ class Y : public X
 public:
 	void f()
 	{
-		std::cout << "Y";
+		cout << "Y";
 	}
 };
 
@@ -246,8 +251,8 @@ int main()
 {
 public:
 	int x;
-	Holder():x(0) {std::cout << "Default with 0" << std::endl;};
-	Holder(int x):x(x){std::cout << "Default with pushed " << x << std::endl;};
+	Holder():x(0) {cout << "Default with 0" << endl;};
+	Holder(int x):x(x){cout << "Default with pushed " << x << endl;};
 	Holder operator+(const Holder& h)
 	{
 		this->x += h.x;
@@ -259,21 +264,21 @@ public:
 		return *this;
 	}
 
-	friend std::ostream& operator<<(std::ostream& s, const Holder& h)
+	friend ostream& operator<<(ostream& s, const Holder& h)
 	{
-		s << "Holder x = " << h.x << std::endl;
+		s << "Holder x = " << h.x << endl;
 		return s;
 	}
 
-	static void* operator new(std::size_t sz)
+	static void* operator new(size_t sz)
 	{
-		std::cout << "New operator" << std::endl;
+		cout << "New operator" << endl;
 		return ::operator new(sz);
 	}
 
 	static void operator delete(void* p)
 	{
-		std::cout << "Delete operator" << std::endl;
+		cout << "Delete operator" << endl;
 		return ::operator delete(p);
 	}
 };
@@ -286,17 +291,16 @@ int main()
 	//h3.x = 4;
 	//h1 = h1 + h2 * h3;
 
-	std::cout << h1 << std::endl;
+	cout << h1 << endl;
 
 	Holder* ph = new Holder(3), *ph2 = ::new Holder(4);
 	*ph = *ph **ph2;
-	std::cout << *ph << std::endl;
+	cout << *ph << endl;
 
 	::delete ph;
-	std::cout << "test" << std::endl;
+	cout << "test" << endl;
 	delete ph2;
 }*/
-
 
 /*template <typename T>
 class Holder
@@ -320,9 +324,9 @@ public:
 		return copy;
 	}
 
-	friend std::ostream& operator<<(std::ostream& s, const Holder& h)
+	friend ostream& operator<<(ostream& s, const Holder& h)
 	{
-		s << "Holder x = " << h.x << std::endl;
+		s << "Holder x = " << h.x << endl;
 		return s;
 	}
 };
@@ -351,8 +355,8 @@ int main()
 	h3.x = 4;
 	h1 = h1 + h2;
 
-	//std::cout << h1 << std::endl;
-	//std::cout << h2 << std::endl;
+	//cout << h1 << endl;
+	//cout << h2 << endl;
 
 	Holder<float>* ph = new Holder<float>(3);
 
@@ -360,7 +364,7 @@ int main()
 	//x.x.x = 1;
 	//y.x.x = 2;
 	x = x + y;
-	std::cout << x << std::endl;
+	cout << x << endl;
 
 	return 0;
 }*/
@@ -384,15 +388,288 @@ float maxt(float t1, float t2)
 	return (t1 > t2) ? t1:t2;
 }
 
+struct convert
+{
+    void operator()(char& ch)
+    {
+    	if(isupper(ch))
+    		ch = tolower(ch);
+    	else
+    		ch = toupper(ch);
+    }
+};
+
+void myfun(char& ch)
+{
+	convert()(ch);
+}
+
+class Randomizer
+{//
+	//	string const c("Exemplary");
+	//	s.assign(c);
+	//	cout << c << "==" << s << endl;
+	//
+	//	s.assign(c, 0, c.length()-1);
+	//	cout << s << endl;
+	//	s.assign(string("C++ by ") + string("example"));
+	//	cout << s << endl;
+	//
+	//	s.assign("C-style string", 7);
+	//	cout << s << endl; // "C-style"
+	//
+	//	s.assign("C-style\0string");
+	//	cout << s << endl; // "C-style"
+	//
+	//	char mutable_c_str[] = "C-style string";
+	//	s.assign(begin(mutable_c_str), end(mutable_c_str)-1);
+	//	cout << s << endl; // "C-style string"
+	//
+	//	s.assign({ 'C', '-', 's', 't', 'y', 'l', 'e' });
+	//	cout << s << endl; // "C-style"
+	//
+	//	s.assign("Exemplary");
+	//
+	//	//FRONT
+	//	char& f = s.front();
+	//	f = 'e';
+	//	cout << &f << endl;
+	//	f = 'E';
+	//	cout << f << endl;
+	//	cout << &f << endl;
+	//
+	//	//CLEAR
+	//	s.clear();
+	//	cout << "TEST " << s << endl;
+	//
+	//	//PUSH_BACK
+	//	s.assign("Exemplary");
+	//	char ch = 'z';
+	//	s.push_back(ch);
+	//	cout << s << endl;
+	//
+	//	//POP_BACK
+	//	s.pop_back();
+	//	cout << s << endl;
+	//
+	//	//REPLACE
+	//	string str("The quick brown fox jumps over the lazy dog.");
+	//	str.replace(10, 5, "red"); // (4)
+	//	str.replace(str.begin(), str.begin() + 3, 1, 'A'); // (5)
+	//	cout << str << endl;
+	//
+	//	//FIND_FIRST_OF
+	//	string search_str = string("o");
+	//	const char* search_cstr = "Good Bye!";
+	//	cout << str.find_first_of(search_str) << endl;
+	//	cout << str.find_first_of(search_str, 15) << endl;
+	//	cout << str.find_first_of(search_cstr) << endl;
+	//	cout << str.find_first_of(search_cstr, 0, 4) << endl;
+	//	cout << str.find_first_of('w') << endl;
+	//
+	//	for(string::iterator x = str.begin(); x!= str.end(); ++x)
+	//	{
+	//		cout << *x << " ";
+	//	}
+	//
+	//	cout << endl;
+	//	for (auto x:str)
+	//	{
+	//		cout << x;
+	//	}
+	//
+	//	cout << endl;
+	//
+	//	for_each(str.begin(), str.end(), convert());
+	//	cout << str << endl;
+	//
+	//	for_each(str.begin(), str.end(), myfun);
+	//	cout << str << endl;
+	//
+	//	for_each(str.begin(), str.end(), [](char& ch) {convert()(ch);});
+	//	cout << str << endl;
+	//
+	//	for_each(str.begin(), str.end(), convert());
+	//	cout << str << endl;
+private:
+	random_device rd;
+	mt19937 gen;
+public:
+	Randomizer()
+	{
+		this->gen = mt19937(this->rd());
+	}
+	int generateRandom(int min, int max)
+	{
+		uniform_int_distribution<> dis(min, max);
+		return dis(this->gen);
+	}
+};
+
+enum class Gender {M, F};
+
+class Person
+{
+public:
+	string name;
+	string surname;
+	int age;
+	Gender gender;
+
+	void generatePerson()
+	{
+		Randomizer random_object;
+		int nameLengthMin = 3;
+		int nameLengthMax = 8;
+		int surnameLengthMin = 4;
+		int surnameLengthMax = 15;
+
+		age = random_object.generateRandom(0, 99);
+		gender = static_cast<Gender>(random_object.generateRandom(0, 1));
+
+		int nameLength = random_object.generateRandom(nameLengthMin, nameLengthMax);
+		for (int i = 0; i < nameLength; ++i)
+			name.append(1, (char)random_object.generateRandom(97,122));
+
+		int surnameLength = random_object.generateRandom(surnameLengthMin, surnameLengthMax);
+		for (int i = 0; i < surnameLength; ++i)
+			surname.append(1, (char)random_object.generateRandom(97,122));
+	}
+
+	friend ostream& operator<<(ostream& s, const Person& p)
+	{
+		s << "Name: " << p.name << endl;
+		s << "Surname: " << p.surname << endl;
+		s << "Age: " << p.age << endl;
+		if (p.gender == Gender::M)
+			s << "Sex: " << "Male" << endl;
+		else
+			s << "Sex: " << "Female" << endl;
+		return s;
+	}
+};
+
 int main()
 {
-	cout << maxt(1, 2) << endl;
-	cout << maxt(1.1, 2.2) << endl;
-	cout << maxt(1.1f, 2.2f) << endl;
-	//cout << maxt('1', '2') << endl;
-	//cout << maxt(1, '2') << endl;
-	cout << maxt<int>(1.1f, 2.2f) << endl;
-	cout << maxt<float>(1.1f, 2.2f) << endl;
-	//cout << maxt<char>(1, '2') << endl;
-	//cout << maxt<char, char>(1, '2') << endl;
+//	cout << maxt(1, 2) << endl;
+//	cout << maxt(1.1, 2.2) << endl;
+//	cout << maxt(1.1f, 2.2f) << endl;
+//	cout << maxt('1', '2') << endl;
+//	cout << maxt(1, '2') << endl;
+//	cout << maxt<int>(1.1f, 2.2f) << endl;
+//	cout << maxt<float>(1.1f, 2.2f) << endl;
+//	cout << maxt<char>(1, '2') << endl;
+//	cout << maxt<char, char>(1, '2') << endl;
+//
+//	ASSIGN
+//	string s;
+//	s.assign(4, '=');
+//	cout << s << endl;
+
+//	string const c("Exemplary");
+//	s.assign(c);
+//	cout << c << "==" << s << endl;
+//
+//	s.assign(c, 0, c.length()-1);
+//	cout << s << endl;
+//	s.assign(string("C++ by ") + string("example"));
+//	cout << s << endl;
+//
+//	s.assign("C-style string", 7);
+//	cout << s << endl; // "C-style"
+//
+//	s.assign("C-style\0string");
+//	cout << s << endl; // "C-style"
+//
+//	char mutable_c_str[] = "C-style string";
+//	s.assign(begin(mutable_c_str), end(mutable_c_str)-1);
+//	cout << s << endl; // "C-style string"
+//
+//	s.assign({ 'C', '-', 's', 't', 'y', 'l', 'e' });
+//	cout << s << endl; // "C-style"
+//
+//	s.assign("Exemplary");
+//
+//	//FRONT
+//	char& f = s.front();
+//	f = 'e';
+//	cout << &f << endl;
+//	f = 'E';
+//	cout << f << endl;
+//	cout << &f << endl;
+//
+//	//CLEAR
+//	s.clear();
+//	cout << "TEST " << s << endl;
+//
+//	//PUSH_BACK
+//	s.assign("Exemplary");
+//	char ch = 'z';
+//	s.push_back(ch);
+//	cout << s << endl;
+//
+//	//POP_BACK
+//	s.pop_back();
+//	cout << s << endl;
+//
+//	//REPLACE
+//	string str("The quick brown fox jumps over the lazy dog.");
+//	str.replace(10, 5, "red"); // (4)
+//	str.replace(str.begin(), str.begin() + 3, 1, 'A'); // (5)
+//	cout << str << endl;
+//
+//	//FIND_FIRST_OF
+//	string search_str = string("o");
+//	const char* search_cstr = "Good Bye!";
+//	cout << str.find_first_of(search_str) << endl;
+//	cout << str.find_first_of(search_str, 15) << endl;
+//	cout << str.find_first_of(search_cstr) << endl;
+//	cout << str.find_first_of(search_cstr, 0, 4) << endl;
+//	cout << str.find_first_of('w') << endl;
+//
+//	for(string::iterator x = str.begin(); x!= str.end(); ++x)
+//	{
+//		cout << *x << " ";
+//	}
+//
+//	cout << endl;
+//	for (auto x:str)
+//	{
+//		cout << x;
+//	}
+//
+//	cout << endl;
+//
+//	for_each(str.begin(), str.end(), convert());
+//	cout << str << endl;
+//
+//	for_each(str.begin(), str.end(), myfun);
+//	cout << str << endl;
+//
+//	for_each(str.begin(), str.end(), [](char& ch) {convert()(ch);});
+//	cout << str << endl;
+//
+//	for_each(str.begin(), str.end(), convert());
+//	cout << str << endl;
+
+//	Randomizer r1;
+//	int random_number = r1.generateRandom(20, 500);
+//	cout << random_number << endl;
+//
+//	Person persons[10];
+//	for(int i = 0; i < 10; ++i)
+//		persons[i].generatePerson();
+//	for (int i = 0; i < 10; ++i)
+//	{
+//		cout << "Person " << i+1 << endl;
+//		cout << persons[i] << endl;
+//	}
+
+	array<Person, 10> persons;
+
+	for (auto p:persons)
+	{
+		p.generatePerson();
+		cout << p << endl;
+	}
 }
