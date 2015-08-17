@@ -556,7 +556,7 @@ public:
 			s << "|Sex: " << "Female" << endl;
 		return s;
 	}
-	bool operator<(Person const & lhs)
+	bool operator<(const Person & lhs)
 	{
 		if (this->name == lhs.name)
 			return this->surname < lhs.surname;
