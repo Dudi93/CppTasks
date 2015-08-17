@@ -4,6 +4,7 @@
 #include <vector>
 #include <random>
 #include <array>
+#include <list>
 
 /*namespace a
 {
@@ -405,92 +406,92 @@ void myfun(char& ch)
 }
 
 class Randomizer
-{//
-	//	string const c("Exemplary");
-	//	s.assign(c);
-	//	cout << c << "==" << s << endl;
-	//
-	//	s.assign(c, 0, c.length()-1);
-	//	cout << s << endl;
-	//	s.assign(string("C++ by ") + string("example"));
-	//	cout << s << endl;
-	//
-	//	s.assign("C-style string", 7);
-	//	cout << s << endl; // "C-style"
-	//
-	//	s.assign("C-style\0string");
-	//	cout << s << endl; // "C-style"
-	//
-	//	char mutable_c_str[] = "C-style string";
-	//	s.assign(begin(mutable_c_str), end(mutable_c_str)-1);
-	//	cout << s << endl; // "C-style string"
-	//
-	//	s.assign({ 'C', '-', 's', 't', 'y', 'l', 'e' });
-	//	cout << s << endl; // "C-style"
-	//
-	//	s.assign("Exemplary");
-	//
-	//	//FRONT
-	//	char& f = s.front();
-	//	f = 'e';
-	//	cout << &f << endl;
-	//	f = 'E';
-	//	cout << f << endl;
-	//	cout << &f << endl;
-	//
-	//	//CLEAR
-	//	s.clear();
-	//	cout << "TEST " << s << endl;
-	//
-	//	//PUSH_BACK
-	//	s.assign("Exemplary");
-	//	char ch = 'z';
-	//	s.push_back(ch);
-	//	cout << s << endl;
-	//
-	//	//POP_BACK
-	//	s.pop_back();
-	//	cout << s << endl;
-	//
-	//	//REPLACE
-	//	string str("The quick brown fox jumps over the lazy dog.");
-	//	str.replace(10, 5, "red"); // (4)
-	//	str.replace(str.begin(), str.begin() + 3, 1, 'A'); // (5)
-	//	cout << str << endl;
-	//
-	//	//FIND_FIRST_OF
-	//	string search_str = string("o");
-	//	const char* search_cstr = "Good Bye!";
-	//	cout << str.find_first_of(search_str) << endl;
-	//	cout << str.find_first_of(search_str, 15) << endl;
-	//	cout << str.find_first_of(search_cstr) << endl;
-	//	cout << str.find_first_of(search_cstr, 0, 4) << endl;
-	//	cout << str.find_first_of('w') << endl;
-	//
-	//	for(string::iterator x = str.begin(); x!= str.end(); ++x)
-	//	{
-	//		cout << *x << " ";
-	//	}
-	//
-	//	cout << endl;
-	//	for (auto x:str)
-	//	{
-	//		cout << x;
-	//	}
-	//
-	//	cout << endl;
-	//
-	//	for_each(str.begin(), str.end(), convert());
-	//	cout << str << endl;
-	//
-	//	for_each(str.begin(), str.end(), myfun);
-	//	cout << str << endl;
-	//
-	//	for_each(str.begin(), str.end(), [](char& ch) {convert()(ch);});
-	//	cout << str << endl;
-	//
-	//	for_each(str.begin(), str.end(), convert());
-	//	cout << str << endl;
+{
+//		string const c("Exemplary");
+//		s.assign(c);
+//		cout << c << "==" << s << endl;
+//
+//		s.assign(c, 0, c.length()-1);
+//		cout << s << endl;
+//		s.assign(string("C++ by ") + string("example"));
+//		cout << s << endl;
+//
+//		s.assign("C-style string", 7);
+//		cout << s << endl; // "C-style"
+//
+//		s.assign("C-style\0string");
+//		cout << s << endl; // "C-style"
+//
+//		char mutable_c_str[] = "C-style string";
+//		s.assign(begin(mutable_c_str), end(mutable_c_str)-1);
+//		cout << s << endl; // "C-style string"
+//
+//		s.assign({ 'C', '-', 's', 't', 'y', 'l', 'e' });
+//		cout << s << endl; // "C-style"
+//
+//		s.assign("Exemplary");
+//
+//		//FRONT
+//		char& f = s.front();
+//		f = 'e';
+//		cout << &f << endl;
+//		f = 'E';
+//		cout << f << endl;
+//		cout << &f << endl;
+//
+//		//CLEAR
+//		s.clear();
+//		cout << "TEST " << s << endl;
+//
+//		//PUSH_BACK
+//		s.assign("Exemplary");
+//		char ch = 'z';
+//		s.push_back(ch);
+//		cout << s << endl;
+//
+//		//POP_BACK
+//		s.pop_back();
+//		cout << s << endl;
+//
+//		//REPLACE
+//		string str("The quick brown fox jumps over the lazy dog.");
+//		str.replace(10, 5, "red"); // (4)
+//		str.replace(str.begin(), str.begin() + 3, 1, 'A'); // (5)
+//		cout << str << endl;
+//
+//		//FIND_FIRST_OF
+//		string search_str = string("o");
+//		const char* search_cstr = "Good Bye!";
+//		cout << str.find_first_of(search_str) << endl;
+//		cout << str.find_first_of(search_str, 15) << endl;
+//		cout << str.find_first_of(search_cstr) << endl;
+//		cout << str.find_first_of(search_cstr, 0, 4) << endl;
+//		cout << str.find_first_of('w') << endl;
+//
+//		for(string::iterator x = str.begin(); x!= str.end(); ++x)
+//		{
+//			cout << *x << " ";
+//		}
+//
+//		cout << endl;
+//		for (auto x:str)
+//		{
+//			cout << x;
+//		}
+//
+//		cout << endl;
+//
+//		for_each(str.begin(), str.end(), convert());
+//		cout << str << endl;
+//
+//		for_each(str.begin(), str.end(), myfun);
+//		cout << str << endl;
+//
+//		for_each(str.begin(), str.end(), [](char& ch) {convert()(ch);});
+//		cout << str << endl;
+//
+//		for_each(str.begin(), str.end(), convert());
+//		cout << str << endl;
 private:
 	random_device rd;
 	mt19937 gen;
@@ -516,6 +517,14 @@ public:
 	int age;
 	Gender gender;
 
+	struct Sum {
+	    Sum() { sum = 0; }
+	    void operator()(Person& p) { sum += p.age; }
+
+	    int sum;
+	};
+	Sum sumage;
+
 	void generatePerson()
 	{
 		Randomizer random_object;
@@ -538,14 +547,20 @@ public:
 
 	friend ostream& operator<<(ostream& s, const Person& p)
 	{
-		s << "Name: " << p.name << endl;
-		s << "Surname: " << p.surname << endl;
-		s << "Age: " << p.age << endl;
+		s << "|Name: " << p.name << endl;
+		s << "|Surname: " << p.surname << endl;
+		s << "|Age: " << p.age << endl;
 		if (p.gender == Gender::M)
-			s << "Sex: " << "Male" << endl;
+			s << "|Sex: " << "Male" << endl;
 		else
-			s << "Sex: " << "Female" << endl;
+			s << "|Sex: " << "Female" << endl;
 		return s;
+	}
+	bool operator<(Person const & lhs)
+	{
+		if (this->name == lhs.name)
+			return this->surname < lhs.surname;
+		return this->name < lhs.name;
 	}
 };
 
@@ -604,7 +619,7 @@ int main()
 //
 //	//PUSH_BACK
 //	s.assign("Exemplary");
-//	char ch = 'z';
+//	char ch = 'z';is not
 //	s.push_back(ch);
 //	cout << s << endl;
 //
@@ -666,16 +681,84 @@ int main()
 //	}
 
 	array<Person, 10> persons;
-	int i = 1;
-
+//	int i = 1;
+//
 	for (auto& p:persons)
 	{
 		p.generatePerson();
 	}
-	for (auto& p:persons)
+//	for (auto& p:persons)
+//	{
+//		cout << "Person " << i << endl;
+//		cout << p << endl;
+//		++i;
+//	}
+//	int i = 1;
+//	for (auto it = persons.begin(); it != persons.end(); ++it)
+//	{
+//		cout << "Person " << i << endl;
+//		cout << *it << endl;
+//		++i;
+//	}
+//
+//	for_each(persons.begin(), persons.end(), Person());
+//
+//	for (int i = 0; i < persons.size(); ++i)
+//	{
+//		cout << "Person " << i+1 << endl;
+//		cout << persons[i] << endl;
+//	}
+
+
+	//ZROBIC REVERSE CZWORKAMI 1 2 3 4 5 6 7 8 9 10 4 3 2 1 8 7 6 5 10 9
+//	vector<Person> personsVec;
+//
+//	for (int i = 0; i < 10; i++)
+//	{
+//		personsVec.push_back(Person());
+//		personsVec[i].generatePerson();
+//		cout << "Person " << i+1 << endl;
+//		cout << personsVec[i] << endl;
+//	}
+//
+//	int personsVecSize = ceil(personsVec.size() / 4);
+//	cout << personsVecSize;
+//
+//	for (unsigned int i = 0; i < personsVec.size(); i += 4)
+//	{
+//		reverse(personsVec.begin(), personsVec.end());
+//	}
+//
+//	for (int i = 0; i < 10; i++)
+//	{
+//		cout << "Person " << i+1 << endl;
+//		cout << personsVec[i] << endl;
+//	}
+
+	list<Person> personsList(10, Person());
+
+	for (auto& p:personsList)
 	{
-		cout << "Person " << i << endl;
-		cout << p << endl;
+		p.generatePerson();
+	}
+
+	Person::Sum s = for_each(personsList.begin(), personsList.end(), Person::Sum());
+
+	int i = 1;
+	for (list<Person>::iterator it = personsList.begin(); it != personsList.end(); it++)
+	{
+		cout << "Person: " << i << endl;
+		cout << *it << endl;
+		++i;
+	}
+	cout << "Sum of age: " << s.sum << endl;
+
+	i = 1;
+	personsList.sort();
+	for (list<Person>::iterator it = personsList.begin(); it != personsList.end(); it++)
+	{
+		cout << "Person: " << i << endl;
+		cout << *it << endl;
 		++i;
 	}
 }
