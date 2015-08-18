@@ -5,6 +5,9 @@
 #include <random>
 #include <array>
 #include <list>
+#include <map>
+#include <thread>
+#include <mutex>
 
 /*namespace a
 {
@@ -371,196 +374,247 @@ int main()
 }*/
 
 using namespace std;
-template <typename T> T maxt(T t1, T t2)
+//template <typename T> T maxt(T t1, T t2)
+//{
+//	cout << "Template 1" << endl;
+//	return (t1 > t2) ? t1:t2;
+//}
+//
+//template <typename T1, typename T2> T1 maxt(T1 t1, T2 t2)
+//{
+//	cout << "Template 2" << endl;
+//	return (t1 > t2) ? t1:t2;
+//}
+//
+//float maxt(float t1, float t2)
+//{
+//	cout << "Float" << endl;
+//	return (t1 > t2) ? t1:t2;
+//}
+
+//struct convert
+//{
+//    void operator()(char& ch)
+//    {
+//    	if(isupper(ch))
+//    		ch = tolower(ch);
+//    	else
+//    		ch = toupper(ch);
+//    }
+//};
+//
+//void myfun(char& ch)
+//{
+//	convert()(ch);
+//}
+//
+//class Randomizer
+//{
+////		string const c("Exemplary");
+////		s.assign(c);
+////		cout << c << "==" << s << endl;
+////
+////		s.assign(c, 0, c.length()-1);
+////		cout << s << endl;
+////		s.assign(string("C++ by ") + string("example"));
+////		cout << s << endl;
+////
+////		s.assign("C-style string", 7);
+////		cout << s << endl; // "C-style"
+////
+////		s.assign("C-style\0string");
+////		cout << s << endl; // "C-style"
+////
+////		char mutable_c_str[] = "C-style string";
+////		s.assign(begin(mutable_c_str), end(mutable_c_str)-1);
+////		cout << s << endl; // "C-style string"
+////
+////		s.assign({ 'C', '-', 's', 't', 'y', 'l', 'e' });
+////		cout << s << endl; // "C-style"
+////
+////		s.assign("Exemplary");
+////
+////		//FRONT
+////		char& f = s.front();
+////		f = 'e';
+////		cout << &f << endl;
+////		f = 'E';
+////		cout << f << endl;
+////		cout << &f << endl;
+////
+////		//CLEAR
+////		s.clear();
+////		cout << "TEST " << s << endl;
+////
+////		//PUSH_BACK
+////		s.assign("Exemplary");
+////		char ch = 'z';
+////		s.push_back(ch);
+////		cout << s << endl;
+////
+////		//POP_BACK
+////		s.pop_back();
+////		cout << s << endl;
+////
+////		//REPLACE
+////		string str("The quick brown fox jumps over the lazy dog.");
+////		str.replace(10, 5, "red"); // (4)
+////		str.replace(str.begin(), str.begin() + 3, 1, 'A'); // (5)
+////		cout << str << endl;
+////
+////		//FIND_FIRST_OF
+////		string search_str = string("o");
+////		const char* search_cstr = "Good Bye!";
+////		cout << str.find_first_of(search_str) << endl;
+////		cout << str.find_first_of(search_str, 15) << endl;
+////		cout << str.find_first_of(search_cstr) << endl;
+////		cout << str.find_first_of(search_cstr, 0, 4) << endl;
+////		cout << str.find_first_of('w') << endl;
+////
+////		for(string::iterator x = str.begin(); x!= str.end(); ++x)
+////		{
+////			cout << *x << " ";
+////		}
+////
+////		cout << endl;
+////		for (auto x:str)
+////		{
+////			cout << x;
+////		}
+////
+////		cout << endl;
+////
+////		for_each(str.begin(), str.end(), convert());
+////		cout << str << endl;
+////
+////		for_each(str.begin(), str.end(), myfun);
+////		cout << str << endl;
+////
+////		for_each(str.begin(), str.end(), [](char& ch) {convert()(ch);});
+////		cout << str << endl;
+////
+////		for_each(str.begin(), str.end(), convert());
+////		cout << str << endl;
+//private:
+//	random_device rd;
+//	mt19937 gen;
+//public:
+//	Randomizer()
+//	{
+//		this->gen = mt19937(this->rd());
+//	}
+//	int generateRandom(int min, int max)
+//	{
+//		uniform_int_distribution<> dis(min, max);
+//		return dis(this->gen);
+//	}
+//};
+//
+//enum class Gender {M, F};
+//
+//class Person
+//{
+//public:
+//	string name;
+//	string surname;
+//	int age;
+//	Gender gender;
+//
+//	struct Sum {
+//	    Sum() { sum = 0; }
+//	    void operator()(Person& p) { sum += p.age; }
+//
+//	    int sum;
+//	};
+//	Sum sumage;
+//
+//	void generatePerson()
+//	{
+//		Randomizer random_object;
+//		int nameLengthMin = 3;
+//		int nameLengthMax = 8;
+//		int surnameLengthMin = 4;
+//		int surnameLengthMax = 15;
+//
+//		age = random_object.generateRandom(0, 99);
+//		gender = static_cast<Gender>(random_object.generateRandom(0, 1));
+//
+//		int nameLength = random_object.generateRandom(nameLengthMin, nameLengthMax);
+//		for (int i = 0; i < nameLength; ++i)
+//			name.append(1, (char)random_object.generateRandom(97,122));
+//
+//		int surnameLength = random_object.generateRandom(surnameLengthMin, surnameLengthMax);
+//		for (int i = 0; i < surnameLength; ++i)
+//			surname.append(1, (char)random_object.generateRandom(97,122));
+//	}
+//
+//	friend ostream& operator<<(ostream& s, const Person& p)
+//	{
+//		s << "|Name: " << p.name << endl;
+//		s << "|Surname: " << p.surname << endl;
+//		s << "|Age: " << p.age << endl;
+//		if (p.gender == Gender::M)
+//			s << "|Sex: " << "Male" << endl;
+//		else
+//			s << "|Sex: " << "Female" << endl;
+//		return s;
+//	}
+//	bool operator<(const Person & lhs)
+//	{
+//		if (this->name == lhs.name)
+//			return this->surname < lhs.surname;
+//		return this->name < lhs.name;
+//	}
+//};
+
+int shit = 0;
+mutex mtx;
+
+void F1 (int& x)
 {
-	cout << "Template 1" << endl;
-	return (t1 > t2) ? t1:t2;
+	//mtx.lock();
+	for(int i = 0; i < 1520; ++i)
+	{
+		x = x + (2 * i) - i;
+	}
+	cout << "F2par: " << x << endl;
+	++x;
+	//mtx.unlock();
 }
 
-template <typename T1, typename T2> T1 maxt(T1 t1, T2 t2)
+void F1r (int x)
 {
-	cout << "Template 2" << endl;
-	return (t1 > t2) ? t1:t2;
+
+	mtx.lock();
+	for(; x > 0; --x)
+	{
+		shit++;
+	}
+	//cout << "F1r: " << shit << endl;
+	mtx.unlock();
 }
 
-float maxt(float t1, float t2)
+class F2
 {
-	cout << "Float" << endl;
-	return (t1 > t2) ? t1:t2;
-}
-
-struct convert
-{
-    void operator()(char& ch)
-    {
-    	if(isupper(ch))
-    		ch = tolower(ch);
-    	else
-    		ch = toupper(ch);
-    }
-};
-
-void myfun(char& ch)
-{
-	convert()(ch);
-}
-
-class Randomizer
-{
-//		string const c("Exemplary");
-//		s.assign(c);
-//		cout << c << "==" << s << endl;
-//
-//		s.assign(c, 0, c.length()-1);
-//		cout << s << endl;
-//		s.assign(string("C++ by ") + string("example"));
-//		cout << s << endl;
-//
-//		s.assign("C-style string", 7);
-//		cout << s << endl; // "C-style"
-//
-//		s.assign("C-style\0string");
-//		cout << s << endl; // "C-style"
-//
-//		char mutable_c_str[] = "C-style string";
-//		s.assign(begin(mutable_c_str), end(mutable_c_str)-1);
-//		cout << s << endl; // "C-style string"
-//
-//		s.assign({ 'C', '-', 's', 't', 'y', 'l', 'e' });
-//		cout << s << endl; // "C-style"
-//
-//		s.assign("Exemplary");
-//
-//		//FRONT
-//		char& f = s.front();
-//		f = 'e';
-//		cout << &f << endl;
-//		f = 'E';
-//		cout << f << endl;
-//		cout << &f << endl;
-//
-//		//CLEAR
-//		s.clear();
-//		cout << "TEST " << s << endl;
-//
-//		//PUSH_BACK
-//		s.assign("Exemplary");
-//		char ch = 'z';
-//		s.push_back(ch);
-//		cout << s << endl;
-//
-//		//POP_BACK
-//		s.pop_back();
-//		cout << s << endl;
-//
-//		//REPLACE
-//		string str("The quick brown fox jumps over the lazy dog.");
-//		str.replace(10, 5, "red"); // (4)
-//		str.replace(str.begin(), str.begin() + 3, 1, 'A'); // (5)
-//		cout << str << endl;
-//
-//		//FIND_FIRST_OF
-//		string search_str = string("o");
-//		const char* search_cstr = "Good Bye!";
-//		cout << str.find_first_of(search_str) << endl;
-//		cout << str.find_first_of(search_str, 15) << endl;
-//		cout << str.find_first_of(search_cstr) << endl;
-//		cout << str.find_first_of(search_cstr, 0, 4) << endl;
-//		cout << str.find_first_of('w') << endl;
-//
-//		for(string::iterator x = str.begin(); x!= str.end(); ++x)
-//		{
-//			cout << *x << " ";
-//		}
-//
-//		cout << endl;
-//		for (auto x:str)
-//		{
-//			cout << x;
-//		}
-//
-//		cout << endl;
-//
-//		for_each(str.begin(), str.end(), convert());
-//		cout << str << endl;
-//
-//		for_each(str.begin(), str.end(), myfun);
-//		cout << str << endl;
-//
-//		for_each(str.begin(), str.end(), [](char& ch) {convert()(ch);});
-//		cout << str << endl;
-//
-//		for_each(str.begin(), str.end(), convert());
-//		cout << str << endl;
-private:
-	random_device rd;
-	mt19937 gen;
 public:
-	Randomizer()
-	{
-		this->gen = mt19937(this->rd());
-	}
-	int generateRandom(int min, int max)
-	{
-		uniform_int_distribution<> dis(min, max);
-		return dis(this->gen);
-	}
-};
-
-enum class Gender {M, F};
-
-class Person
+	F2()
 {
-public:
-	string name;
-	string surname;
-	int age;
-	Gender gender;
-
-	struct Sum {
-	    Sum() { sum = 0; }
-	    void operator()(Person& p) { sum += p.age; }
-
-	    int sum;
-	};
-	Sum sumage;
-
-	void generatePerson()
+	//	cout << "Jestem super klasa i nie mam parametru" << endl;
+}
+	F2(int& x)
+{
+		//mtx.lock();
+		for(int i = 0; i < 1520; ++i)
+		{
+			x = x + (2 * i) - i;
+		}
+		cout << "F2par: " << x << endl;
+		++x;
+		//mtx.unlock();
+}
+	void operator()()
 	{
-		Randomizer random_object;
-		int nameLengthMin = 3;
-		int nameLengthMax = 8;
-		int surnameLengthMin = 4;
-		int surnameLengthMax = 15;
 
-		age = random_object.generateRandom(0, 99);
-		gender = static_cast<Gender>(random_object.generateRandom(0, 1));
-
-		int nameLength = random_object.generateRandom(nameLengthMin, nameLengthMax);
-		for (int i = 0; i < nameLength; ++i)
-			name.append(1, (char)random_object.generateRandom(97,122));
-
-		int surnameLength = random_object.generateRandom(surnameLengthMin, surnameLengthMax);
-		for (int i = 0; i < surnameLength; ++i)
-			surname.append(1, (char)random_object.generateRandom(97,122));
-	}
-
-	friend ostream& operator<<(ostream& s, const Person& p)
-	{
-		s << "|Name: " << p.name << endl;
-		s << "|Surname: " << p.surname << endl;
-		s << "|Age: " << p.age << endl;
-		if (p.gender == Gender::M)
-			s << "|Sex: " << "Male" << endl;
-		else
-			s << "|Sex: " << "Female" << endl;
-		return s;
-	}
-	bool operator<(const Person & lhs)
-	{
-		if (this->name == lhs.name)
-			return this->surname < lhs.surname;
-		return this->name < lhs.name;
 	}
 };
 
@@ -581,7 +635,7 @@ int main()
 //	s.assign(4, '=');
 //	cout << s << endl;
 
-//	string const c("Exemplary");
+//	string const c("Exemplary"cout << "F1r: " << shit << endl;);
 //	s.assign(c);
 //	cout << c << "==" << s << endl;
 //
@@ -602,7 +656,7 @@ int main()
 //
 //	s.assign({ 'C', '-', 's', 't', 'y', 'l', 'e' });
 //	cout << s << endl; // "C-style"
-//
+//cout << "F1r: " << shit << endl;
 //	s.assign("Exemplary");
 //
 //	//FRONT
@@ -622,7 +676,7 @@ int main()
 //	char ch = 'z';is not
 //	s.push_back(ch);
 //	cout << s << endl;
-//
+//cout << "F1r: " << shit << endl;
 //	//POP_BACK
 //	s.pop_back();
 //	cout << s << endl;
@@ -643,7 +697,7 @@ int main()
 //	cout << str.find_first_of('w') << endl;
 //
 //	for(string::iterator x = str.begin(); x!= str.end(); ++x)
-//	{
+//	{cout << "F1r: " << shit << endl;
 //		cout << *x << " ";
 //	}
 //
@@ -656,7 +710,7 @@ int main()
 //	cout << endl;
 //
 //	for_each(str.begin(), str.end(), convert());
-//	cout << str << endl;
+//	cout << str << endl;cout << "F1r: " << shit << endl;
 //
 //	for_each(str.begin(), str.end(), myfun);
 //	cout << str << endl;
@@ -667,7 +721,23 @@ int main()
 //	for_each(str.begin(), str.end(), convert());
 //	cout << str << endl;
 
-//	Randomizer r1;
+//	Randomizer r1;//template <typename T> T maxt(T t1, T t2)
+//{
+//	cout << "Template 1" << endl;
+//	return (t1 > t2) ? t1:t2;
+//}
+//
+//template <typename T1, typename T2> T1 maxt(T1 t1, T2 t2)
+//{
+//	cout << "Template 2" << endl;
+//	return (t1 > t2) ? t1:t2;
+//}
+//
+//float maxt(float t1, float t2)
+//{
+//	cout << "Float" << endl;
+//	return (t1 > t2) ? t1:t2;
+//}
 //	int random_number = r1.generateRandom(20, 500);
 //	cout << random_number << endl;
 //
@@ -680,13 +750,14 @@ int main()
 //		cout << persons[i] << endl;
 //	}
 
-	array<Person, 10> persons;
+	//array<Person, 10> persons;
 //	int i = 1;
-//
-	for (auto& p:persons)
-	{
-		p.generatePerson();
-	}
+
+//	for (auto& p:persons)cout << "F1r: " << shit << endl;
+//	{
+//		p.generatePerson();
+//	}
+
 //	for (auto& p:persons)
 //	{
 //		cout << "Person " << i << endl;
@@ -735,30 +806,88 @@ int main()
 //		cout << personsVec[i] << endl;
 //	}
 
-	list<Person> personsList(10, Person());
+//	list<Person> personsList(10, Person());
+//
+//	for (auto& p:personsList)cout << "F1r: " << shit << endl;
+//	{
+//		p.generatePerson();
+//	}
+//
+//	Person::Sum s = for_each(personsList.begin(), personsList.end(), Person::Sum());
+//
+//	int i = 1;
+//	for (list<Person>::iterator it = personsList.begin(); it != personsList.end(); it++)
+//	{
+//		cout << "Person: " << i << endl;
+//		cout << *it << endl;
+//		++i;
+//	}
+//	cout << "Sum of age: " << s.sum << endl;
+//
+//	i = 1;
+//	personsList.sort();
+//	for (list<Person>::iterator it = personsList.begin(); it != personsList.end(); it++)
+//	{
+//		cout << "Person: " << i << endl;
+//		cout << *it << endl;
+//		++i;
+//	}
 
-	for (auto& p:personsList)
-	{
-		p.generatePerson();
-	}
+	map<char, int> mymap;
+	mymap['a'] = 20;
+	mymap['b'] = 30;
+	mymap['c'] = 10;
+	mymap['d'] = 40;
+	mymap['e'] = 5;
 
-	Person::Sum s = for_each(personsList.begin(), personsList.end(), Person::Sum());
+	auto it = mymap.find('d');
+	//it->first;
+	//it->second;
+	mymap.erase(it);
+	cout << "F1r: " << shit << endl;
+	cout << "Elements in mymap:" << endl;
+	cout << mymap.find('a')->first << " => " << mymap.find('a')->second << endl;
+	cout << mymap.find('b')->first << " => " << mymap.find('b')->second << endl;
+	cout << mymap.find('c')->first << " => " << mymap.find('c')->second << endl;
+	it = mymap.find('d');
+	if (it != mymap.end())
+		cout << mymap.find('d')->first << " => " << mymap.find('d')->second << endl;
+	cout << mymap.find('e')->first << " => " << mymap.find('e')->second << endl;
 
-	int i = 1;
-	for (list<Person>::iterator it = personsList.begin(); it != personsList.end(); it++)
-	{
-		cout << "Person: " << i << endl;
-		cout << *it << endl;
-		++i;
-	}
-	cout << "Sum of age: " << s.sum << endl;
+	mymap['a'] = 10;
+	mymap['f'] = 10;
 
-	i = 1;
-	personsList.sort();
-	for (list<Person>::iterator it = personsList.begin(); it != personsList.end(); it++)
-	{
-		cout << "Person: " << i << endl;
-		cout << *it << endl;
-		++i;
-	}
+	cout << mymap.find('a')->first << " => " << mymap.find('a')->second << endl;
+	cout << mymap.find('f')->first << " => " << mymap.find('f')->second << endl;
+
+	mymap['d'] = 20;
+	cout << mymap.find('d')->first << " => " << mymap.find('d')->second << endl;
+
+	int x = 1000000;
+	/*thread thread1(F1, ref(x));
+	thread thread2(F2(ref(x)));
+	thread thread2b((F2()));
+	thread thread1r(F1r, ref(x));*/
+
+	array <thread, 50> threads;
+
+	for (int i = 0; i < 50; ++i)
+		threads[i] = thread(F1r, x);
+
+	for (int i = 0; i < 50; ++i)
+			threads[i].join();
+
+	cout << "F1r: " << shit << endl;
+
+
+	//cout << "F1, F1r oraz F2 sa wlasnie wykonywane" << endl;
+
+	/*thread1.join();
+	thread2.join();
+	thread1r.join();
+	thread2b.join();*/
+
+	//cout << "F1, F1r oraz F2 sie zakonczyly" << endl;
+
+	return 0;
 }
